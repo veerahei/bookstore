@@ -1,5 +1,6 @@
 package k25.bookstore.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import k25.bookstore.domain.Book;
 import k25.bookstore.domain.BookRepository;
+import k25.bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
+    @Autowired
+    private CategoryRepository cRepository;
 
     private BookRepository repository;
 
@@ -33,6 +37,7 @@ public class BookController {
     @GetMapping("/add")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", cRepository.findAll());
         return "addbook";
     }
 
@@ -51,6 +56,7 @@ public class BookController {
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable("id") Long bookId, Model model) {
         model.addAttribute("book", repository.findById(bookId));
+        model.addAttribute("categories", cRepository.findAll());
         return "editBook";
     }
 }

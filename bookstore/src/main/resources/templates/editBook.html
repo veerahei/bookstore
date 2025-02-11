@@ -10,16 +10,25 @@
     <h1>Edit book</h1>
     <form th:object="${book}" th:action="@{../save}" action="#" method="post">
         <input type="hidden" th:field="*{id}" class="form-control" />
-        <input type="text" th:field="*{title}" />
+        <label for="title">Title</label>
+        <input type="text" id="title" th:field="*{title}" />
         <br>
-        <input type="text" th:field="*{author}" />
+        <label for="author">Author</label>
+        <input type="text" id="author" th:field="*{author}" />
         <br>
-        <input type="text" th:field="*{isbn}" />
+        <label for="isbn">Isbn</label>
+        <input type="text" id="isbn" th:field="*{isbn}" />
         <br>
-        <input type="text" th:field="*{publicationYear}" />
+        <label for="year">Publication year</label>
+        <input type="text" id="year" th:field="*{publicationYear}" />
         <br>
-        <input type="text" th:field="*{price}" />
+        <label for="price">Price</label>
+        <input type="text" id="price" th:field="*{price}" />
         <br>
+        <label for="catlist">Category</label>
+        <select id="catlist" th:field="*{category.categoryid}" class="form-control">
+            <option th:each="cat: ${categories}" th:value="${cat.categoryid}" th:text="${cat.name}"></option>
+        </select>
         <input type="submit" value="Save"></input>
     </form>
 </body>
