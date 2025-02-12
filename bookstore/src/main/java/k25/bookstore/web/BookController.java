@@ -3,10 +3,13 @@ package k25.bookstore.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
 import k25.bookstore.domain.Book;
 import k25.bookstore.domain.BookRepository;
 import k25.bookstore.domain.CategoryRepository;
@@ -42,7 +45,13 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String saveBook(Book book) {
+    public String saveBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Errors" + book);
+            model.addAttribute("book", book);
+            model.addAttribute("categories", cRepository.findAll());
+            return "addbook";
+        }
         repository.save(book);
         return "redirect:booklist";
     }
