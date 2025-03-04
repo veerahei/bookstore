@@ -1,5 +1,7 @@
 package k25.bookstore.domain;
 
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,8 +27,8 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "categoryid")
-    
     private Category category;
+
     public Book() {
 
     }
