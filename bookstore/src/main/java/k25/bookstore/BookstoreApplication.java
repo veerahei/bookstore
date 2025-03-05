@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import k25.bookstore.domain.AppUser;
+import k25.bookstore.domain.AppUserRepository;
 import k25.bookstore.domain.Book;
 import k25.bookstore.domain.BookRepository;
 import k25.bookstore.domain.Category;
@@ -22,7 +24,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository brepository, CategoryRepository crepository) {
+	public CommandLineRunner bookDemo(BookRepository brepository, CategoryRepository crepository, AppUserRepository auRepository) {
 		return (args) -> {
 			log.info("Save a couple of books");
 
@@ -37,6 +39,11 @@ public class BookstoreApplication {
 			brepository.save(new Book("Hohto", "Stephen King", "123456", 1987, 20.0, category1));
 			brepository.save(new Book("Tuntematon sotilas", "Väinö Linna", "98765", 1950, 30.0, category3));
 			brepository.save(new Book("Dyyni", "Frank Herbert", "112233", 1965, 35.0, category2));
+
+			log.info("create application users");
+			auRepository.save(new AppUser("user", "$2a$10$ai9fVgpSQjcsR6JU1IFg8OHqr8cUM.QPDLPpzc1hPxENPwDGfbQ8a", "USER"));
+			auRepository.save(new AppUser("admin", "$2a$10$5PJ3IdRUM8MEIKdqfteYS.1Vkeppm0WXivRgiO0djBIB/7bX3Cvw.", "ADMIN"));
+
 
 			for (Book book : brepository.findAll()) {
 				log.info(book.toString());

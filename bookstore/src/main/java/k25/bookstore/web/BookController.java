@@ -1,6 +1,7 @@
 package k25.bookstore.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +38,7 @@ public class BookController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("categories", cRepository.findAll());
@@ -56,12 +58,14 @@ public class BookController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {
         repository.deleteById(bookId);
         return "redirect:../booklist";
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String editBook(@PathVariable("id") Long bookId, Model model) {
         model.addAttribute("book", repository.findById(bookId));
         model.addAttribute("categories", cRepository.findAll());
